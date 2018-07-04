@@ -1,0 +1,5 @@
+{
+    "name": "Raster Tasks",
+    "description": "Run rasterio tasks with Girder Worker",
+    "version": "0.0.0"
+}
