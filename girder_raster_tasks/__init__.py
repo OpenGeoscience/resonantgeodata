@@ -15,6 +15,4 @@ class GirderRasterTasks(GirderWorkerPluginABC):
         self.app = app
 
     def task_imports(self):
-        # Return a list of python importable paths to the
-        # plugin's path directory
         return ['girder_raster_tasks.tasks']
