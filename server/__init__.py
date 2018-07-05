@@ -1,2 +1,5 @@
+from .rest import RasterTasksEndpoints
+
+
 def load(info):
-    pass
+    info['apiRoot'].raster = RasterTasksEndpoints()
