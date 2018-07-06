@@ -14,10 +14,12 @@ from shapely.geometry import shape, mapping
 
 
 def reprojectGeometry(geometry, projString):
+    inProj = pyproj.Proj('+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs ')
+    outProj = pyproj.Proj(projString)
     project = partial(
         pyproj.transform,
-        pyproj.Proj(init='epsg:4326'),
-        pyproj.Proj(projString)
+        inProj,
+        outProj
     )
     transformed = mapping(transform(project, shape(geometry)))
 
@@ -32,7 +34,6 @@ def getTempFileName(name):
 @girder_job(title='Clip Task')
 @app.task(bind=True)
 def clip_task(self, girderFile, geometry, name):
-    import rpdb; rpdb.set_trace()
     with rasterio.open(girderFile) as src:
         geom = reprojectGeometry(geometry, src.crs.to_string())
         outImage, outTransform = mask(src,
