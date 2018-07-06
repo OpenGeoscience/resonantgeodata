@@ -6,7 +6,7 @@ import pyproj
 import rasterio
 from rasterio.enums import Resampling
 from rasterio.warp import calculate_default_transform, reproject
-from rasterio.tools.mask import mask
+from rasterio.mask import mask
 from shapely.ops import transform
 from girder_worker.app import app
 from girder_worker.utils import girder_job
@@ -32,6 +32,7 @@ def getTempFileName(name):
 @girder_job(title='Clip Task')
 @app.task(bind=True)
 def clip_task(self, girderFile, geometry, name):
+    import rpdb; rpdb.set_trace()
     with rasterio.open(girderFile) as src:
         geom = reprojectGeometry(geometry, src.crs.to_string())
         outImage, outTransform = mask(src,
