@@ -20,20 +20,11 @@ setup(name='girder_raster_tasks',
       ],
       install_requires=[
           'girder_worker',
-          'girder_worker_utils'
-          # TODO: Add additional packages required by both
-          # producer and consumer side installations
+          'girder_worker_utils',
+          'rasterio',
+          'shapely',
+          'pyproj'
       ],
-      extras_require={
-          'girder': [
-              # TODO: Add dependencies here that are required for the
-              # package to work on the producer (Girder) side.
-          ],
-          'worker': [
-              # TODO: Add dependencies here that are required for the
-              # package to work on the consumer (Girder Worker) side.
-          ]
-      },
       include_package_data=True,
       entry_points={
           'girder_worker_plugins': [
