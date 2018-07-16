@@ -6,7 +6,7 @@ import pyproj
 import rasterio
 from rasterio.enums import Resampling
 from rasterio.warp import calculate_default_transform, reproject
-from rasterio.tools.mask import mask
+from rasterio.mask import mask
 from shapely.ops import transform
 from girder_worker.app import app
 from girder_worker.utils import girder_job
