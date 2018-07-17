@@ -1,5 +1,6 @@
 {
-    "name": "Raster Tasks",
+    "name": "Geospatial Tasks",
     "description": "Run rasterio tasks with Girder Worker",
+    "dependencies": ["worker"],
     "version": "0.0.0"
 }
