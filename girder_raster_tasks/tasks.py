@@ -56,6 +56,7 @@ def clip_task(self, girderFile, geometry, name):
 @app.task(bind=True)
 def reproject_task(self, girderFile, name, dstCrs, resampleMethod):
     tempName = getTempFileName(name)
+    dstCrs = str(dstCrs)
     with rasterio.open(girderFile) as src:
         affine, width, height = calculate_default_transform(
             src.crs, dstCrs, src.width, src.height, *src.bounds)
