@@ -1,0 +1,39 @@
+version: '3'
+services:
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - 5673:5672
+      - 35198:35197
+      - 4370:4369
+      - 25673:25672
+      - 15673:15672
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - 27018:27017
+
+  girder:
+    build:
+      context: ../../
+      dockerfile: Dockerfile.girder
+    container_name: girder
+    ports:
+      - 8989:8989
+    depends_on:
+      - mongodb
+    environment:
+      - GIRDER_WORKER_BROKER=amqp://guest:guest@rabbitmq/
+      - GIRDER_WORKER_BACKEND=amqp://guest:guest@rabbitmq/
+
+
+  girder_worker:
+    build:
+      context: ../../
+      dockerfile: Dockerfile.girder_worker
+    environment:
+      - GIRDER_WORKER_BROKER=amqp://guest:guest@rabbitmq/
+      - GIRDER_WORKER_BACKEND=amqp://guest:guest@rabbitmq/
+    depends_on:
+      - rabbitmq
