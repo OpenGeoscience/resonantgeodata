@@ -74,7 +74,7 @@ def reproject_task(self, girderFile, name, dstCrs, resampleMethod):
                 reproject(
                     source=rasterio.band(src, i),
                     destination=rasterio.band(dest, i),
-                    src_transform=src.affine,
+                    src_transform=affine,
                     src_crs=src.crs,
                     dst_transform=affine,
                     dst_crs=dstCrs,
