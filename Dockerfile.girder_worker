@@ -1,0 +1,19 @@
+FROM girder/girder_worker:latest
+
+USER root
+
+RUN girder-worker-config set celery broker "amqp://guest:guest@rabbitmq/"
+
+ENV C_FORCE_ROOT true
+
+RUN apt-get update && \
+    apt-get install git telnet libgdal-dev gdal-bin -y && \
+    pip install rpdb
+
+COPY . /resonantgeodata
+
+RUN cd /resonantgeodata && pip install -e .
+
+RUN chmod +x /resonantgeodata/devops/docker/scripts/wait-for-it.sh
+
+ENTRYPOINT ["/resonantgeodata/devops/docker/scripts/wait-for-it.sh", "rabbitmq:5672", "--", "girder-worker"]
