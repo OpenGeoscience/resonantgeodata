@@ -1,3 +1,4 @@
+import os
 import time
 import girder_client
 
@@ -25,10 +26,14 @@ public = gc.get('/resource/search', parameters={
     'q': 'Public',
     'types': '["folder"]'
 })
-gc.upload('/resonantgeodata/devops/docker/data/*', public['folder'][0]['_id'])
+
+data_path = '/resonantgeodata/devops/docker/data'
+if os.path.exists(data_path):
+    gc.upload('{}/*'.format(data_path), public['folder'][0]['_id'])
 
 gc.put('/system/restart')
 
+# TODO Find a better way to wait for girder to be restarted
 time.sleep(8)
 
 # Set girder worker related settings
