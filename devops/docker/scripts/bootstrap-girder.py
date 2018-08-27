@@ -1,6 +1,33 @@
 import os
 import time
 import girder_client
+import ConfigParser
+
+try:
+    from urllib2 import urlopen, URLError
+except ImportError:
+    from urllib.request import urlopen, URLError
+
+
+def waitForIt(url, timeout=5):
+    # Wait for girder to be up and running
+    while timeout > 0:
+        time.sleep(1)
+        try:
+            urlopen(url)
+            timeout = 0
+        except URLError:
+            timeout -= 1
+
+def getGirderUrlFromConfig():
+    config = ConfigParser.ConfigParser()
+    config.read('/root/.girder/girder.cfg')
+    host = config.get('global', 'server.socket_host').strip("'\"")
+    port = config.get('global', 'server.socket_port').strip("'\"")
+    apiRoot = config.get('server', 'api_root').strip("'\"")
+    return 'http://{}:{}/{}'.format(host, port, apiRoot)
+
+
 
 gc = girder_client.GirderClient(apiUrl='http://girder:8989/api/v1')
 
@@ -33,8 +60,7 @@ if os.path.exists(data_path):
 
 gc.put('/system/restart')
 
-# TODO Find a better way to wait for girder to be restarted
-time.sleep(8)
+waitForIt(getGirderUrlFromConfig(), timeout=30)
 
 # Set girder worker related settings
 gc.put('/system/setting', parameters={
