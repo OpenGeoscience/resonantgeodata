@@ -28,7 +28,6 @@ def getGirderUrlFromConfig():
     return 'http://{}:{}/{}'.format(host, port, apiRoot)
 
 
-
 gc = girder_client.GirderClient(apiUrl='http://girder:8989/api/v1')
 
 # Create admin user
@@ -45,8 +44,10 @@ assetstore = gc.post('/assetstore', parameters={'name': 'assetstore',
 
 # Enable necessary plugins
 gc.put('/system/plugins', parameters={
-    'plugins': '["geometa", "resonantgeodata"]'
+    'plugins': '["geometa", "resonantgeodata", "large_image"]'
 })
+
+gc.post('/system/web_build')
 
 # Upload directory to girder
 public = gc.get('/resource/search', parameters={

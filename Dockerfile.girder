@@ -1,16 +1,30 @@
-FROM girder/girder:latest
+FROM girder/girder:2.x-maintenance
 
 ENV CPLUS_INCLUDE_PATH /usr/include/gdal
 ENV C_INCLUDE_PATH /usr/include/gdal
 
-RUN apt-get update && apt-get install libgdal-dev gdal-bin -y && \
-    pip install gdal==2.1.0
+RUN apt-get update && apt-get install -y \
+    	    libgdal-dev \
+	    gdal-bin \
+	    libmapnik-dev \
+	    libjpeg62-turbo-dev \
+	    zlib1g-dev \
+	    libopenjp2-7
+
+RUN pip install \
+    gdal==2.1.0 \
+    Pillow \
+    mapnik \
+    palettable \
+    pyproj
 
 RUN git clone https://github.com/OpenGeoscience/girder_geospatial.git /geometa && \
     cd /geometa && pip install . && pip install types/vector types/raster types/grid && \
     girder-install plugin . -s
 
-RUN pip install girder-client rpdb && apt-get install telnet -y
+RUN git clone https://github.com/girder/large_image.git /large_image && \
+    cd /large_image && pip install -e . && \
+    girder-install plugin . -s
 
 COPY . /resonantgeodata
 
