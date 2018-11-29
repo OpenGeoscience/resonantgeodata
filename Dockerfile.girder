@@ -18,7 +18,7 @@ RUN pip install \
     palettable \
     pyproj
 
-RUN git clone https://github.com/OpenGeoscience/girder_geospatial.git /geometa && \
+RUN git clone --branch 2.x-maintenance https://github.com/OpenGeoscience/girder_geospatial.git /geometa && \
     cd /geometa && pip install . && pip install types/vector types/raster types/grid && \
     girder-install plugin . -s
 
