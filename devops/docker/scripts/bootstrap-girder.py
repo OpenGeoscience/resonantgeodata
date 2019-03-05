@@ -44,7 +44,7 @@ assetstore = gc.post('/assetstore', parameters={'name': 'assetstore',
 
 # Enable necessary plugins
 gc.put('/system/plugins', parameters={
-    'plugins': '["geometa", "resonantgeodata", "large_image"]'
+    'plugins': '["geometa", "resonantgeodata", "large_image", "ess_dive"]'
 })
 
 gc.post('/system/web_build')
