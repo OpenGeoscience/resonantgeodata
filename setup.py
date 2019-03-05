@@ -19,6 +19,7 @@ setup(name='girder_raster_tasks',
           'Programming Language :: Python'
       ],
       install_requires=[
+          'mock',
           'girder_worker',
           'girder_worker_utils',
           'rasterio',

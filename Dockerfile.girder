@@ -4,7 +4,7 @@ ENV CPLUS_INCLUDE_PATH /usr/include/gdal
 ENV C_INCLUDE_PATH /usr/include/gdal
 
 RUN apt-get update && apt-get install -y \
-    	    libgdal-dev \
+    	libgdal-dev \
 	    gdal-bin \
 	    libmapnik-dev \
 	    libjpeg62-turbo-dev \
@@ -25,6 +25,10 @@ RUN git clone --branch 2.x-maintenance https://github.com/OpenGeoscience/girder_
 RUN git clone https://github.com/girder/large_image.git /large_image && \
     cd /large_image && pip install -e . && \
     girder-install plugin . -s
+
+RUN git clone https://github.com/shreddd/girder-ess-dive.git /ess_dive && \
+    cd /ess_dive && \
+    cp -r /ess_dive /girder/plugins/
 
 COPY . /resonantgeodata
 
