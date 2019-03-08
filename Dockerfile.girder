@@ -16,7 +16,8 @@ RUN pip install \
     Pillow \
     mapnik \
     palettable \
-    pyproj
+    pyproj \
+    xmltodict
 
 RUN git clone --branch 2.x-maintenance https://github.com/OpenGeoscience/girder_geospatial.git /geometa && \
     cd /geometa && pip install . && pip install types/vector types/raster types/grid && \
